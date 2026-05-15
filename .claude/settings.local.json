@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/robot/demo1/**)",
+      "Bash(python3 server.py)"
+    ]
+  }
+}
