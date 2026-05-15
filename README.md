@@ -1,135 +1,178 @@
-# URDFly
+# DH Viewer - URDF & MDH Parameters Viewer
 
-## News
+DH Viewer是一个用于可视化和分析机器人URDF文件的工具，支持查看3D模型、控制关节角度、显示MDH参数等功能。
 
-* [20260302] The ultimate STEP to URDF tool is released at [https://step2urdf.top](https://step2urdf.top)
-<p align="center">
-  <img src='https://github.com/Democratizing-Dexterous/URDFlyS2U/blob/main/assets/main.png' width="80%" />
-</p>
+## 功能特点
 
-https://github.com/Democratizing-Dexterous/step2urdf
+- 🤖 **URDF文件可视化**: 加载并显示机器人的3D模型
+- 🎛️ **关节控制**: 通过滑块或输入值控制关节角度
+- 📐 **MDH参数**: 查看和显示Modified Denavit-Hartenberg参数
+- 🔄 **运动学分析**: 支持正运动学和雅可比矩阵计算
+- ✏️ **URDF编辑**: 内置XML编辑器，支持直接编辑URDF文件
+- 🎨 **可视化控制**: 支持透明度调节、坐标系显示等
+- 📊 **碰撞体处理**: 支持碰撞体网格分解和显示
 
-## Overview
+## 系统要求
 
-URDFly is a Python-based toolkit for working with URDF (Unified Robot Description Format) files, specifically designed for robotic arm modeling, simulation, and control. The project provides tools for parsing, visualizing, and analyzing robotic systems defined in URDF format, with a focus on axes visulazation, urdf editing, MDH parameter conversion, kinematics calculation, and dynamics regressor codegen.
+- Python 3.7+
+- Linux/Windows/macOS
+- 显卡支持OpenGL（用于3D渲染）
 
-<p align="center">
-  <img src='assets/gx7.png' width="80%" />
-</p>
+## 安装步骤
 
-<p align="center">
-  <img src='assets/poppy.png' width="80%" />
-</p>
+### 1. 克隆或下载项目
 
-
-## Features
-
-- URDF file parsing and manipulation
-- 3D visualization of robot models
-- Dynamic regressor generation using symbolic computation
-- Modified Denavit-Hartenberg (MDH) parameter conversion
-
-## Highlight
-
-### URDF Visualization
-
-- Support `stl` and `obj` mesh file format
-- Support transparent mesh and multiple axes visualization
-- Support highligt link by clicking the Links list.
-- Support original link axes visualization and M-DH axes visualization
-- Support virtual link visualization by a read sphere.
-- Support collision mesh visualization
-
-![alt text](assets/gx7_collision.png)
-
-### MDH Parameter Conversion
-
-The project includes a tool for converting URDF to Modified DH (MDH) parameters. Multi chain robot is supported.
-
-![alt text](assets/gx7-mdh.png)
-
-The MDH can be used to calculate the forward kinematics of the robot and generate dynamics regressor (this takes a while) for dynamics identification.
-
-![alt text](assets/gx7-mdh-fk.png)
-
-The MDH can be used to generate the analytical inverse kinematics solution via `yaik`, see [Analytical IK Tutorial](docs/Analytical_IK_Tutorial.md).
-
-### URDF Editing and Visualization
-
-The project includes a editor for URDF file. Clicking the `Edit URDF` button can open the editor. Clincking the `update` button will update the visulazation from the modified urdf. The editor provides searching and autofill of different `pi` with adjustable precision.
-
-![alt text](assets/urdf-editor.png)
-
-### Convex Decomposition
-
-URDFly provides a utility to decompose collision meshes into convex shapes, which can be useful for physics simulations and collision detection. Clicking the `Decompose As Collision` button and editing the `maxConvexHulls` parameter can decompose the collision mesh into a specified number of convex hulls.
-
-![alt text](assets/convex_decomp.png)
-
-After clicking `ok` (this will take a while to do the convex decomposition) the URDF editor will pop up and clicking `update` button will update the visulazation from the modified urdf.
-
-## Installation
-
-### Prerequisites
-
-- Python 3.8+
-- Required Python packages (install via pip):
-
-  ```
-  pip install numpy sympy pyqt5 vtk anytree transformations trimesh
-  ```
-
-## Usage
-
-```
-python main.py
+```bash
+git clone https://github.com/Herong1212/manipulator_demo.git
+cd dh_viewer
 ```
 
-## Project Structure
+### 2. 创建Conda环境
 
-- `main.py`: Main entry point for the application
-- `urdf_parser.py`: URDF file parsing utilities
-- `urdf_vtk_model.py`: VTK-based visualization for URDF models
-- `mdh_dialog.py`: Tools for Modified Denavit-Hartenberg parameter conversion
-- `xml_editor.py`: Utilities for editing URDF XML files
-- `codegen/`: Code generation for kinematics and dynamics
-  - `forward_kinematics.py`: Forward kinematics calculation
-  - `dynamic_base_regressor.py`: Dynamic parameter regression
-  - `sympybotics/`: Symbolic robotics computation library
-- `descriptions/`: Robot model descriptions
-  - `gx7/`: GX7 7-axis robot arm model
-  - `poppy/`: Poppy humanoid robot model
-- `docs/`: Documentation files
-- `third_parties/`: Third-party utilities and helpers
+```bash
+# 创建名为dh_viewer的conda环境，指定Python版本
+conda create -n dh_viewer python=3.8 -y
 
-## Documentation
+# 激活环境
+conda activate dh_viewer
+```
 
-For more detailed information, please refer to the documentation in the `docs/` directory:
+### 3. 安装依赖包
 
-- [MDH Parameters Tutorial](docs/MDH_Parameters_Tutorial.md)
-- [Analytical IK Tutorial](docs/Analytical_IK_Tutorial.md)
+```bash
+# 安装基础依赖
+pip install -r requirements.txt
 
-## Limitations
+# 安装GUI和可视化依赖
+pip install PyQt5 vtk numpy
+```
 
-- The `scale` in mesh tag of the urdf is not supported.
-- Only .STL and .OBJ mesh files are supported.
-- Only open loop chain is supported.
-- The MDH axes will not change from the joint sliders.
+### 4. 验证安装
 
-## Contributing
+```bash
+# 检查Python版本
+python --version
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+# 检查关键包是否安装成功
+python -c "import PyQt5; import vtk; import numpy; print('依赖包安装成功！')"
+```
 
-## License
+## 使用方法
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### 基本使用
 
-## Acknowledgments
+1. **启动程序**:
+   ```bash
+   python dh_viewer.py
+   ```
 
-- [sympybotics](https://github.com/cdsousa/SymPyBotics/tree/master/sympybotics)
-- [urdf_to_dh](https://github.com/mcevoyandy/urdf_to_dh)
+2. **打开URDF文件**:
+   - 点击"Open URDF"按钮选择URDF文件
+   - 或者直接将URDF文件拖拽到3D视图中
 
-## Contact
+3. **控制关节角度**:
+   - 使用右侧的滑块调节每个关节的角度
+   - 点击"Reset"按钮重置所有关节到零位置
+   - 点击"Random"按钮随机设置关节角度
+   - 点击"Set Joints"按钮批量输入关节角度值
 
-If you are interested in in-depth collaboration or secondary development, feel free to reach out to me.
-Email: <yunlongdong@outlook.com>
+4. **选择运动链**:
+   - 在左侧"Select Chain"下拉框中选择要查看的运动链
+   - 在"Links"列表中查看和选择连杆
+
+5. **查看MDH参数**:
+   - 点击"Show MDH Parameters"按钮查看当前运动链的MDH参数表
+   - 勾选"Show MDH Frames"在3D视图中显示MDH坐标系
+
+6. **调整显示**:
+   - 使用"Transparency"滑块调节模型透明度
+   - 勾选/取消"Show Link Frames"显示/隐藏连杆坐标系
+   - 勾选/取消"Show Collision"显示/隐藏碰撞体
+
+### 高级功能
+
+#### URDF文件编辑
+
+1. 点击"Edit URDF"按钮打开XML编辑器
+2. 在编辑器中修改URDF内容
+3. 点击"Apply"保存更改并更新3D模型
+
+#### 碰撞体网格分解
+
+1. 点击"Decompose As Collision"按钮
+2. 在弹出的对话框中选择分解参数
+3. 应用后URDF文件将自动更新
+
+#### 单位切换
+
+- 在右侧"Joints Control"面板中，可以在"rad"（弧度）和"deg"（度）之间切换显示单位
+
+## 示例文件
+
+项目包含一个示例机器人模型：
+
+- `descriptions/tcb610_06N/urdf/TCB610_06N.urdf` - TCB610机器人的URDF文件
+- `descriptions/tcb610_06N/meshes/` - 对应的3D网格文件（STL格式）
+
+加载示例：
+```bash
+python dh_viewer.py
+# 然后选择 descriptions/tcb610_06N/urdf/TCB610_06N.urdf
+```
+
+## 项目结构
+
+```
+dh_viewer/
+├── dh_viewer.py              # 主程序入口
+├── urdf_parser.py            # URDF文件解析器
+├── urdf_vtk_model.py         # VTK 3D模型渲染
+├── xml_editor.py             # XML编辑器
+├── mdh_dialog.py             # MDH参数显示对话框
+├── decomp_dialog.py          # 碰撞体分解对话框
+├── simplify_mesh.py          # 网格简化工具
+├── requirements.txt          # Python依赖包
+├── codegen/                  # 代码生成模块
+│   ├── forward_kinematics.py # 正运动学
+│   ├── jacobian.py           # 雅可比矩阵
+│   └── sympybotics/          # 符号计算库
+├── descriptions/             # 机器人描述文件
+│   └── tcb610_06N/          # 示例机器人
+│       ├── urdf/            # URDF文件
+│       └── meshes/          # 3D网格文件
+└── third_parties/            # 第三方工具
+    ├── urdf2dh.py           # URDF转DH参数
+    └── ...
+```
+
+## 依赖包说明
+
+- **PyQt5**: GUI框架，用于创建用户界面
+- **VTK**: 3D可视化库，用于渲染机器人模型
+- **numpy**: 数值计算库
+- **anytree**: 树形数据结构，用于运动链分析
+- **trimesh**: 网格处理库
+- **transformations**: 坐标变换库
+
+## 常见问题
+
+### Q: 启动时提示找不到PyQt5或VTK？
+A: 确保已激活conda环境并安装了所有依赖：
+```bash
+conda activate dh_viewer
+pip install PyQt5 vtk
+```
+
+### Q: 3D视图显示不正常或卡顿？
+A: 检查显卡驱动是否支持OpenGL，尝试降低网格复杂度或更新显卡驱动。
+
+### Q: 加载URDF文件时提示找不到mesh文件？
+A: 确保mesh文件路径正确，相对路径是相对于URDF文件所在目录的。
+
+### Q: 如何导出MDH参数？
+A: 点击"Show MDH Parameters"后，参数表格会显示在弹出的对话框中，可以手动复制。
+
+## 开发者信息
+
+- 项目地址: https://github.com/Herong1212/manipulator_demo
+- 主要功能: URDF可视化、运动学分析、MDH参数计算
